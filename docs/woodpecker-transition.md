@@ -21,3 +21,12 @@ image references. Updates need a reviewed PR and actual native execution.
 These are offline tooling and synthetic plotting checks. They do not connect,
 flash, restart, heat, home, or move a printer, and do not prove hardware safety.
 No printer configuration or retained recovery archive changes in this rollout.
+
+## Devcontainer updates
+
+Compatible open image updates are reviewed together with their Node smoke
+contract. The retained hosted Linux lane builds the actual `.devcontainer`
+Dockerfile and runs its post-create smoke with a read-only root filesystem,
+no network, and the runner UID. The task checkout remains writable as required
+by setup. The path filter includes devcontainer changes. A native Nix gate alone
+does not prove the selected devcontainer image builds or works.
