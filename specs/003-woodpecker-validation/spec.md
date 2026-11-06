@@ -12,6 +12,9 @@ pull requests, main pushes, and manual validation. This changes automation only.
 - Do not expose publication secrets, host services, or private runtime state.
 - Keep existing GitHub checks until genuine native PR and main success.
 - Preserve macOS, actual Docker, distinct lint, and administrative coverage.
+- Review compatible devcontainer updates together and align Node and smoke.
+- Build the updated devcontainer and run its isolated post-create smoke on the
+  retained hosted Linux lane, including devcontainer-only PRs.
 - Record exact source and pipeline identity; recover through a corrective PR.
 
 No hardware configuration or live printer operation is part of this work.

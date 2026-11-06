@@ -11,3 +11,7 @@ proven duplicates through a subsequent reviewed change with aligned settings.
 
 No product, firmware, live-host, publication-credential, or shared-workflow
 interface changes are required. The existing constitution remains satisfied.
+
+Batch the selected compatible Node and image-pin PRs into this candidate. The
+retained hosted Linux lane builds the actual devcontainer and runs its setup
+smoke. This evidence is distinct from the locked native Nix validation.
