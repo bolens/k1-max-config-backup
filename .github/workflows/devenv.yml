@@ -30,6 +30,7 @@ jobs:
           filters: |
             environment:
               - 'devenv.*'
+              - '.devcontainer/**'
               - '.github/workflows/devenv.yml'
               - '*.sh'
               - 'ruff.toml'
@@ -74,6 +75,22 @@ jobs:
         run: |
           python3 scripts/development-container.py build docker
           python3 scripts/development-container.py run docker -- bash scripts/check-development.sh
+
+      - name: Validate VS Code devcontainer image
+        if: runner.os == 'Linux'
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          docker build --pull --tag devcontainer:ci .devcontainer
+          docker run --rm --network=none --read-only \
+            --cap-drop=ALL --security-opt=no-new-privileges \
+            --user "$(id -u):$(id -g)" \
+            --tmpfs /tmp:rw,nosuid,nodev,size=67108864,mode=1777 \
+            --env HOME=/tmp --env XDG_CONFIG_HOME=/tmp/config \
+            --env XDG_CACHE_HOME=/tmp/cache --env XDG_STATE_HOME=/tmp/state \
+            --mount "type=bind,source=$PWD,target=/workspace" \
+            --workdir /workspace devcontainer:ci \
+            bash .devcontainer/post-create.sh
 
   result:
     name: Development environment
