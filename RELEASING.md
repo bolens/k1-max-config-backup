@@ -50,3 +50,11 @@ with the same tooling revision pinned in
 [the workflow](.github/workflows/source-lint.yml). Review exclusions when adding
 source files; generated and imported files retain their native validation.
 Require the new check to pass on the current PR head before merging.
+
+## Woodpecker validation
+
+[The transition contract](docs/woodpecker-transition.md) runs the existing locked
+Linux development check on Woodpecker. Require actual native PR and merged-main
+success before retiring duplicate hosted work. Preserve platform-specific, real
+Docker, and administrative checks until equivalent replacement is verified.
+This automation change does not deploy printer changes or create a release.
