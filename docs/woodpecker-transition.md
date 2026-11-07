@@ -59,3 +59,35 @@ not enable global acceptance of arbitrary repository flake configuration.
 Require real native PR and main execution, plus the retained actual Docker
 image check, before accepting the upgrade; platform and cache warnings must
 be absent.
+
+## Portable workflow security
+
+The locked native development gate now requires `actionlint` and offline
+`zizmor` at medium severity and confidence. Both tools were already provided
+by the development environment. Their failures propagate through
+`scripts/check-development.sh` and `devenv test`; focused tests execute that
+entry point with inert tools to verify both failure paths.
+
+This replaces no printer, macOS, Docker/editor or Spec Kit update behavior.
+After actual native PR and merged-main success, the duplicate hosted actionlint
+and zizmor requirements may move to `ci/woodpecker/pr/woodpecker` through a
+separately reviewed settings change. Until then, preserve the existing checks.
+
+## CI discovery index
+
+| Group | Local command | Current native owner |
+| --- | --- | --- |
+| `validation` | `devenv test` (`scripts/check-development.sh` is the canonical check sequence) | `woodpecker` / `development-environment` |
+| `source-markdown` | `markdownlint-cli2` with the patterns in `scripts/check-development.sh` | Included in `validation` |
+| `workflow-security` | `actionlint` and `zizmor --offline --min-severity medium --min-confidence medium .github` | Included in `validation` |
+| `regression` | `python3 -m unittest discover -s tests -p test_workflow_security.py -v` | Included in `validation` |
+
+The existing native PR context is `ci/woodpecker/pr/woodpecker`. Keep that name
+until a coordinated fleet change updates pipeline names, required checks and
+documentation together. A future `validation` pipeline name must preserve the
+same canonical command and check coverage. This change does not rename it.
+
+The hosted development workflow still owns macOS and any actual Docker/editor
+checks selected there. Forge assignment, labels and Spec Kit update automation
+remain separate from these portable validation groups. Require genuine native
+PR and merged-main results before disabling a proven duplicate workflow.
