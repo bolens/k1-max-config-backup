@@ -26,7 +26,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pkg-config \
     procps \
     python3 \
+    python3-matplotlib \
+    python3-numpy \
+    python3-pil \
     python3-pip \
+    python3-scipy \
     python3-venv \
     ripgrep \
     shellcheck \
